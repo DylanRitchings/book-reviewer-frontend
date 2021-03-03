@@ -1,0 +1,70 @@
+body{
+    background-color: #f0f8fa;
+}
+
+nav{
+    padding: 1%;
+    margin-bottom: 3%;
+    background-color: #5eb6cc;
+    color: white;
+    border-bottom: 2px solid black;
+}
+
+.btn-primary{
+
+    /* border-radius: 7px; */
+    
+    background-color: rgb(73, 148, 158);
+    /* border-color: rgb(108, 132, 136); */
+    border-width: 0px;
+/* gainsboro */
+}
+
+.btn-primary:hover{
+    background-color: rgb(130, 179, 179);
+}
+
+.edit{
+    margin: 7px;
+    height: 35px;
+    width: 90px;
+}
+
+.delete{
+    margin: 7px;
+    height: 35px;
+    width: 90px;
+}
+
+
+.review{
+    border: 2px solid black;
+    /* border-top: 0px; */
+    margin-top: 10px;
+    background-color:lightblue;
+}
+
+.body{
+    border: 1px solid black;
+    margin: 6px;
+    background-color:#f7fcff;
+}
+
+.topnav-right {
+    float: right;
+  }
+
+  #upload {
+    width: 150px;
+    
+    margin-top: 0px;
+  }
+
+/* .reviews{
+    border : 1px solid black;
+    padding: 10px;
+    margin-left: 3%;
+    margin-right: 3%;
+} */
+
+
