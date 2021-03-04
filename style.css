@@ -67,4 +67,7 @@ nav{
     margin-right: 3%;
 } */
 
+#bodyInput{
+    min-height: 150px;
+}
 
