@@ -1,41 +1,5 @@
 "use strict";
 
-// //PUT - update
-// const updateObject = {
-//     "serId":100,
-//     "title": "test",
-//     "body": "bodyda sd as"
-// };
-
-// fetch(`https://jsonplaceholder.typicode.com/posts/${id}`,{
-//     method: `PUT`,
-//     headers: {
-//         "Content-type":"application/json"
-//     },
-//     body: JSON.stringify(updateObject)
-// })
-// .then((response)=> {
-//     if(response.status !== 201){
-//         console.log(`status: ${response.status}`);
-//         return;
-//     }
-//     response.json()})
-// .then((data)=> console.log(`Request succesful with JSON response ${data}`))
-// .catch((error)=> console.log(error));
-
-
-// // PostData Function
-// let postData = (data) => {
-//     let newTitle = document.createElement("h3")
-//     let newBody = document.createElement("p");
-//     let bodyData = data.body;
-//     let titleData = data.title;
-//     newTitle.innerHTML = `Title: ${titleData}`;
-//     newBody.innerHTML = `Body: ${bodyData}`;
-//     targetDiv.appendChild(newTitle);
-//     targetDiv.appendChild(newBody);
-// }
-
 //////////////
 //GETTERS AND SETTERS
 //////////////
@@ -52,6 +16,7 @@ let setReview = (review) => {
     let reviewDiv = document.createElement("div");
     reviewDiv.setAttribute("class","container review");
     reviewDiv.setAttribute("id",`review${id}`);
+    reviewDiv.setAttribute("reviewid",`${id}`);
     reviewsDiv.appendChild(reviewDiv);
 
     let topDiv = document.createElement("div");
@@ -70,14 +35,18 @@ let setReview = (review) => {
     topDiv.appendChild(authorDiv);
 
     let editBtn = document.createElement("button");
-    editBtn.setAttribute("class","col- edit btn btn-primary");
+    editBtn.setAttribute("class","col- editBtn btn btn-primary");
+    editBtn.setAttribute("reviewid",`${id}`);
     editBtn.textContent = "Edit";
     topDiv.appendChild(editBtn);
 
     let deleteBtn = document.createElement("button");
-    deleteBtn.setAttribute("class","col- delete btn btn-primary");
+    deleteBtn.setAttribute("class","col- deleteBtn btn btn-primary");
+    deleteBtn.setAttribute("reviewid",`${id}`);
     deleteBtn.textContent = "Delete";
     topDiv.appendChild(deleteBtn);
+
+    deleteBtnListener(deleteBtn);
 
     let bottomDiv = document.createElement("div");
     bottomDiv.setAttribute("class","row");
@@ -125,14 +94,14 @@ let setUploadMessage = (message) => {
 
 
 //////////////
-//REQUESTS
+//REQUEST PROMISES
 //////////////
 
 //GET
 fetch('http://localhost:8901/review/readAll')
 .then((response) => {
     if(response.status !== 200){
-        console.log(`status: ${response.status}`);
+        console.log(`error: ${response.status}`);
         return;
     }
     response.json()
@@ -143,27 +112,9 @@ fetch('http://localhost:8901/review/readAll')
     })
 });
 
-
-// //GET BY ID
-// fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
-// .then((response) => { //.then follow fetch and takes in response
-//     if(response.status !== 200){
-//         console.log(`status: ${response.status}`);
-//         return;
-//     }
-//     response.json()
-//     .then((data)=> {
-//         console.log(data);
-//         // loopList(data);
-//     }).catch((error)=> {
-//         console.log(error);
-//     })
-// });
-
-
-
+//POST
 let uploadReview = (review) => {
-
+    let check = true
     fetch(`http://localhost:8901/review/create`,{
         method: `POST`,
         headers: {
@@ -173,70 +124,114 @@ let uploadReview = (review) => {
     })
     .then((response)=> {
         if(response.status !== 201){
-            console.log(`status: ${response.status}`);
-            return false;
+            console.log(`error: ${response.status}`);
+            check = false;
         }
         response.json()})
     .then((data)=> {
-        console.log(`Request successful. Response: ${data}`)
-        return true;
+        console.log(`Request successful.`)
+        uploadIn(check, review);
 })
     .catch((error)=> {
         console.log(error)
-        return false;
+        uploadIn(false, review);
     });
 
 }
 
-// //DELETE
-// fetch((`https://jsonplaceholder.typicode.com/posts/${id}`),{
-//     method: `DELETE`
-// })
-// .then((data) => console.log(`Response: ${data}`))
-// .catch((error) => console.log(error));
-
-
-
-// //PostData set class
-// let postData2= (data) => {
-//     let newCard = document.createElement('div');
-
-//     newCard.setAttribute("class", "card");
-
-//     //append newCard
-// }
-
+//DELETE
+let deleteReview = (id) => {
+    let check = true;
+    fetch((`http://localhost:8901/review/delete/${id}`),{
+        method: `DELETE`
+    }) 
+    .then((response)=> {
+        if(response.status !== 204){
+            console.log(`error: ${response.status}`);
+            check = false;
+        }
+        })
+    .then((data) => {
+        deleteIn(check);
+    })
+    .catch((error) => {
+        console.log(error);
+        deleteIn(false);
+    });
+}
 
 //////////////
 //MAIN METHODS
 //////////////
 
-let uploadMain = () => {
+//Upload
+let uploadOut = () => {
     const reviewObj = getReviewObj();
-    if (reviewObj){
-        if(uploadReview(reviewObj)){
-            setUploadMessage("Error uploading");
-        } else {
-            setUploadMessage("Upload successful");
-            setReview(reviewObj);
-        }
-        $('#uploadForm').trigger("reset");
-        $("#uploadModal").modal("hide");
-    }
-
+    uploadReview(reviewObj)
 }
 
+
+let uploadIn = (response, reviewObj) => {
+    if(response){
+        setUploadMessage("Upload successful");
+        setReview(reviewObj);
+    } else {
+        setUploadMessage("Error uploading");
+    }
+    $('#uploadForm').trigger("reset");
+    $("#uploadModal").modal("hide");
+    
+}
+
+//Read all
 let readReviewsMain = (reviews) => {
-    for (d in reviews){
+    for (let d in reviews){
         const review = reviews[d];
         setReview(review);
     }    
 }
 
+//Delete
+let deleteOut = () => {
+    const deleteModal = document.getElementById("deleteModal");
+    const id = deleteModal.getAttribute("userid");
+    deleteReview(id);
+}
+
+let deleteIn = (response) => {
+    console.log(response);
+    if(response){   
+         $("#deleteModal").modal("hide");
+         location.reload();
+    } else {
+        let deleteError = document.getElementById("deleteError");
+        deleteError.textContent = "Error deleting";
+    }
+
+}
+
+let deleteModalMain = (id) => {
+    let deleteModal = document.getElementById("deleteModal");
+    deleteModal.setAttribute("userid", `${id}`)
+    $("#deleteModal").modal();
+}
+
 //////////////
-//Listeners
+//LISTENERS
 //////////////
 
 let uploadBtn = document.getElementById("uploadBtn");
-uploadBtn.addEventListener("click", function (){
-    uploadMain()});
+uploadBtn.addEventListener("click", () => {
+    uploadOut()});
+
+
+let deleteBtnListener = (deleteBtn) => {
+    deleteBtn.addEventListener("click", () => {
+    deleteModalMain(deleteBtn.getAttribute("reviewid"));
+    });
+}
+
+let confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+confirmDeleteBtn.addEventListener("click", () => {
+    deleteOut();
+})

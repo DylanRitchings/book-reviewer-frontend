@@ -14,7 +14,10 @@
 
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-      <a class="navbar-brand">Book Reviews</a>
+      <a class="navbar-brand">
+        <svg id="navbar-logo" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
+          <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+        </svg><div class="navbar-brand" id="navbar-name" ><strong>Book Reviews</strong></div></a>
       
         <div class="d-flex">
           <div class="navbar-bookreviews" id="successMsg"></div>
@@ -25,26 +28,12 @@
     </nav>
 
     <div class="container", id="reviews">
-    <!-- <div class="container review">
-            <div class="row">       
-                <div class="col-md title">The Fellowship of The Ring</div>
-                <div class="col-md author">By J. R. R. Tolkien</div>
-                <button class="col- edit btn btn-primary">Edit</button>
-                <button class="col- delete btn btn-primary">Delete</button>
-            </div>
-            <div class="row">
-                <p class="col-sm body">
-                    This is a review for thjkergk jherfjkhs dfkjhsdfjk dfkjh sdjkfh skdjfh sdjkfh ksjdfh sjkdfh ksjdfhjks dfh
-                    sdfkjsdklfjsdklfjklsdjfklsd/ sdfkjg lskdfjslkdf.sd jfjksdhfjks dhfkjhksdf skldfjklsdhf klsjdflkjsddf lkjs klsdjflksd jfjksdhfjks
-                    sdklfjlskdjf lsdkfsd sdfmh.
-                </p>
-            </div>
-    </div> -->
+
 
 </div>
 
 
-<!-- MODAL -->
+<!-- UPLOAD MODAL -->
 <div class="modal" tabindex="-1" role="dialog" id="uploadModal">
   <form id=uploadForm>
     <div class="modal-dialog form-group" role="document">
@@ -72,8 +61,57 @@
     </div>
   </form>
   </div>
-  
 
+<!-- EDIT MODAL -->
+  <div class="modal" tabindex="-1" role="dialog" id="editModal">
+    <form id=editForm>
+      <div class="modal-dialog form-group" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit review</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="titleInput">Book title</label>
+            <input type="text" class="form-control" id="titleInput" name="titleInput"><br>
+            <label for="authorInput">Author</label>
+            <input type="text" class="form-control" id="authorInput" name="authorInput"><br>
+            <label for="bodyInput">Review</label>
+            <textarea type="text" class="form-control" id="bodyInput" name="bodyInput"></textarea><br>
+          </div>
+          <div class="modal-footer">
+            <div id="uploadError"></div>
+            <button type="button" class="btn btn-primary" id="uploadBtn">Upload</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+
+  <!-- DELETE MODAL -->
+    <div class="modal" tabindex="-1" role="dialog" id="deleteModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">WARNING</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this review?</p>
+          </div>
+          <div class="modal-footer">
+            <div id="deleteError"></div>
+            <button type="button" id="confirmDeleteBtn" class="btn btn-primary">Delete</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 
