@@ -3,7 +3,7 @@ body{
 }
 
 nav{
-    padding: 1%;
+    padding: 15px;
     margin-bottom: 3%;
     background-color: #5eb6cc;
     color: white;
@@ -11,13 +11,9 @@ nav{
 }
 
 .btn-primary{
-
-    /* border-radius: 7px; */
-    
+  
     background-color: rgb(73, 148, 158);
-    /* border-color: rgb(108, 132, 136); */
     border-width: 0px;
-/* gainsboro */
 }
 
 .btn-primary:hover{
@@ -71,3 +67,6 @@ nav{
     min-height: 150px;
 }
 
+#successMsg{
+    margin: 10px;
+}

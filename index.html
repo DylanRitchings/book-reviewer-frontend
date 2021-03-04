@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Test title</title>
+        <title>Book Reviews</title>
         <meta name="author" content="Dylan Ritchings"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
         <meta charset="UTF-8"/>
@@ -12,15 +12,20 @@
     </head>
     <body>
 
-    <nav>
-        <strong>Book Reviews</strong>
-        <div class="topnav-right">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+      <a class="navbar-brand">Book Reviews</a>
+      
+        <div class="d-flex">
+          <div class="navbar-bookreviews" id="successMsg"></div>
+          
         <button type="button" class="btn btn-primary" id="upload" data-toggle="modal" data-target="#uploadModal">Upload Review</button>
         </div>
+      </div>
     </nav>
 
     <div class="container", id="reviews">
-    <div class="container review">
+    <!-- <div class="container review">
             <div class="row">       
                 <div class="col-md title">The Fellowship of The Ring</div>
                 <div class="col-md author">By J. R. R. Tolkien</div>
@@ -34,13 +39,14 @@
                     sdklfjlskdjf lsdkfsd sdfmh.
                 </p>
             </div>
-    </div>
+    </div> -->
 
 </div>
 
 
 <!-- MODAL -->
 <div class="modal" tabindex="-1" role="dialog" id="uploadModal">
+  <form id=uploadForm>
     <div class="modal-dialog form-group" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -58,11 +64,13 @@
           <textarea type="text" class="form-control" id="bodyInput" name="bodyInput"></textarea><br>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Upload</button>
+          <div id="uploadError"></div>
+          <button type="button" class="btn btn-primary" id="uploadBtn">Upload</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
+  </form>
   </div>
   
 
