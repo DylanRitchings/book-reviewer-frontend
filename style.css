@@ -3,7 +3,7 @@ body{
 }
 
 nav{
-    padding: 1%;
+    padding: 15px;
     margin-bottom: 3%;
     background-color: #5eb6cc;
     color: white;
@@ -11,29 +11,31 @@ nav{
 }
 
 .btn-primary{
-
-    /* border-radius: 7px; */
-    
+  
     background-color: rgb(73, 148, 158);
-    /* border-color: rgb(108, 132, 136); */
     border-width: 0px;
-/* gainsboro */
 }
 
 .btn-primary:hover{
     background-color: rgb(130, 179, 179);
 }
 
-.edit{
+.editBtn{
     margin: 7px;
     height: 35px;
     width: 90px;
 }
 
-.delete{
+.deleteBtn{
     margin: 7px;
     height: 35px;
     width: 90px;
+    background-color: rgb(201, 73, 73);
+}
+
+.deleteBtn:hover{
+    color: white;
+    background-color: rgb(165, 31, 31);
 }
 
 
@@ -60,11 +62,32 @@ nav{
     margin-top: 0px;
   }
 
-/* .reviews{
-    border : 1px solid black;
-    padding: 10px;
-    margin-left: 3%;
-    margin-right: 3%;
-} */
 
+#bodyInput{
+    min-height: 150px;
+}
 
+#successMsg{
+    margin: 10px;
+}
+
+#confirmDeleteBtn{
+    color: white;
+    background-color: rgb(201, 73, 73);
+}
+
+#confirmDeleteBtn:hover{
+    color: white;
+    background-color: rgb(165, 31, 31);
+}
+
+.navbar-brand{
+    color:rgb(255, 255, 255);
+}
+
+#navbar-logo{
+    color:lightblue;
+}
+#navbar-name{
+    padding-left: 10px;
+}
