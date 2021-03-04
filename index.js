@@ -40,6 +40,8 @@ let setReview = (review) => {
     editBtn.textContent = "Edit";
     topDiv.appendChild(editBtn);
 
+    editBtnListener(editBtn);
+
     let deleteBtn = document.createElement("button");
     deleteBtn.setAttribute("class","col- deleteBtn btn btn-primary");
     deleteBtn.setAttribute("reviewid",`${id}`);
@@ -62,16 +64,17 @@ let setReview = (review) => {
 
 
 
- let getReviewObj = () => {
-    const titleInp = document.getElementById("titleInput").value;
-    const authorInp = document.getElementById("authorInput").value;
-    const bodyInp = document.getElementById("bodyInput").value;
+ let getReviewObj = (type) => {
+    const typeUp = type.charAt(0).toUpperCase() + type.slice(1);
+    const titleInp = document.getElementById(`title${typeUp}`).value;
+    const authorInp = document.getElementById(`author${typeUp}`).value;
+    const bodyInp = document.getElementById(`body${typeUp}`).value;
 
-    let errorDiv = document.getElementById("uploadError");
+    let errorDiv = document.getElementById(`${type}Error`);
     errorDiv.textContent="";
 
     if(!titleInp || !authorInp || !bodyInp){
-        let errorDiv = document.getElementById("uploadError");
+        let errorDiv = document.getElementById(`${type}Error`);
         errorDiv.textContent="Fill all input boxes";
     } else {
         const reviewObj = {
@@ -90,6 +93,9 @@ let setUploadMessage = (message) => {
     let messageDiv = document.getElementById("successMsg");
     messageDiv.textContent=message;
 }
+
+
+
 
 
 
@@ -160,14 +166,43 @@ let deleteReview = (id) => {
     });
 }
 
+//UPDATE (PUT)
+let updateReview = (id,review) => {
+    let check = true;
+    fetch(`http://localhost:8901/review/update/${id}`,{
+        method: `PUT`,
+        headers: {
+            "Content-type":"application/json"
+        },
+        body: JSON.stringify(review)
+    })
+    .then((response)=> {
+        if(response.status !== 202){
+            console.log(`status: ${response.status}`);
+            check = false;
+        }
+        response.json()})
+    .then((data)=> {
+        console.log(`Request succesful`);
+        editIn(check);
+    })
+    .catch((error)=> {
+        console.log(error);
+        editIn(false);
+    });
+}
+
+
 //////////////
 //MAIN METHODS
 //////////////
 
 //Upload
 let uploadOut = () => {
-    const reviewObj = getReviewObj();
-    uploadReview(reviewObj)
+    const reviewObj = getReviewObj("upload");
+    if(reviewObj){
+        uploadReview(reviewObj)
+    }
 }
 
 
@@ -210,28 +245,88 @@ let deleteIn = (response) => {
 
 }
 
-let deleteModalMain = (id) => {
+let deleteModalOpen = (id) => {
     let deleteModal = document.getElementById("deleteModal");
-    deleteModal.setAttribute("userid", `${id}`)
+    deleteModal.setAttribute("userid", `${id}`);
     $("#deleteModal").modal();
+}
+
+
+//Edit
+let editOut = () => {
+    const reviewObj = getReviewObj("edit");
+    if(reviewObj){
+        const editModal = document.getElementById("editModal");
+        const id = editModal.getAttribute("userid");
+        updateReview(id, reviewObj);
+    }
+}
+
+let editIn = (response) => {
+    if(response){
+        location.reload();
+    } else {
+        let editError = document.getElementById("editError");
+        editError.textContent="Error editing";
+    }
+
+    
+}
+
+let editModalOpen = (id) => {
+    let editModal = document.getElementById("editModal");
+    editModal.setAttribute("userid", `${id}`);
+
+    let titleInput = document.getElementById("titleEdit");
+    let authorInput = document.getElementById("authorEdit");
+    let bodyInput = document.getElementById("bodyEdit");
+
+    const reviewDiv = document.getElementById(`review${id}`);
+    const titleOld = reviewDiv.querySelector(".title");
+    const authorOld = reviewDiv.querySelector(".author");
+    const bodyOld = reviewDiv.querySelector(".body");
+
+    titleInput.value=titleOld.innerHTML;
+    authorInput.value=authorOld.innerHTML;
+    bodyInput.value=bodyOld.innerHTML;
+
+    $("#editModal").modal();
+
 }
 
 //////////////
 //LISTENERS
 //////////////
 
+//Upload
 let uploadBtn = document.getElementById("uploadBtn");
 uploadBtn.addEventListener("click", () => {
-    uploadOut()});
+    uploadOut();
+});
 
-
+//Delete
 let deleteBtnListener = (deleteBtn) => {
     deleteBtn.addEventListener("click", () => {
-    deleteModalMain(deleteBtn.getAttribute("reviewid"));
+    deleteModalOpen(deleteBtn.getAttribute("reviewid"));
     });
 }
+
 
 let confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 confirmDeleteBtn.addEventListener("click", () => {
     deleteOut();
-})
+});
+
+//Edit
+let editBtnListener = (editBtn) => {
+    editBtn.addEventListener("click", () => {
+    editModalOpen(editBtn.getAttribute("reviewid"));
+    });
+}
+
+
+let confirmEditBtn = document.getElementById("confirmEditBtn");
+confirmEditBtn.addEventListener("click", () => {
+
+    editOut();
+});
