@@ -50,6 +50,7 @@ nav{
     border: 1px solid black;
     margin: 6px;
     background-color:#f7fcff;
+    white-space: pre-wrap;
 }
 
 .topnav-right {

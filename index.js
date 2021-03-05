@@ -31,7 +31,7 @@ let setReview = (review) => {
 
     let authorDiv = document.createElement("div");
     authorDiv.setAttribute("class","col-md author");
-    authorDiv.textContent = authorName;
+    authorDiv.textContent = `By ${authorName}`;
     topDiv.appendChild(authorDiv);
 
     let editBtn = document.createElement("button");
