@@ -112,7 +112,7 @@ fetch('http://localhost:8901/review/readAll')
     }
     response.json()
     .then((data)=> {
-        readReviewsMain(data);
+        readReviewsIn(data);
     }).catch((error)=> {
         console.log(error);
     })
@@ -219,7 +219,7 @@ let uploadIn = (response, reviewObj) => {
 }
 
 //Read all
-let readReviewsMain = (reviews) => {
+let readReviewsIn = (reviews) => {
     for (let d in reviews){
         const review = reviews[d];
         setReview(review);
